@@ -32,5 +32,5 @@ public class TbBoardController {
 
 //    List<Long> tbboardInx = Arrays.asList(1L, 2L, 3L);
 //    List<TbBoardEntity> products = TbBoardService.findTbBoardByInx(tbboardInx);
-
+//commit 확인
 }
