@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //springBoot 3.0 버전 추가
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+    // mysql connector 8.0
+    implementation 'mysql:mysql-connector-java:8.0.33'
+        // Gradle 5.x 미만 롬복추가
+    implementation 'org.projectlombok:lombok'
+    //jpa 추가
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
