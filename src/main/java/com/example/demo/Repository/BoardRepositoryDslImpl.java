@@ -72,6 +72,15 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
                 .where(boardEntity.idx.eq(idx))
                 .fetchFirst();
     }
+
+    @Override
+    public void deletePost(Integer idx) {
+         jpqlQueryFactory.delete(boardEntity)
+                 .where(boardEntity.idx.eq(idx))
+                 .execute();
+        log.info("포스트 삭제");
+    }
+
     //데이터를 2번 부를때
     //게시글 테이블 데이터를 부르고, 댓글 데이터 호출 -->service 에서 가공한 데이터를  return
 
@@ -79,5 +88,6 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
     //boardEntity는 QueryDSL이 자동으로 생성한 엔티티에 대한 Q 타입
         /*select(boardEntity)는 엔티티를 선택하고, from(boardEntity)는 해당 엔티티를 어떤 테이블에서
         조회할 것인지를 지정합니다. fetch()는 쿼리를 실행하고 결과를 리스트로 반환*/
+
 
 }

@@ -16,5 +16,6 @@ public interface BoardRepositoryDsl{
     CommentDto.comment findComment(Integer idx);
 
 
+    void deletePost(Integer idx);
 
 }

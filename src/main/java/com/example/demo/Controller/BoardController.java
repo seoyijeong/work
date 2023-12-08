@@ -47,8 +47,8 @@ public class BoardController {
     }
     ///////////////////게시글 신규, 저장
     @PostMapping("/save")
-    public void saveBoard(@RequestBody BoardDto boardDto){
-        boardService.saveBoard(boardDto);
+    public void savePost(@RequestBody BoardDto boardDto){
+        boardService.savePost(boardDto);
     }
     //////////////////게시글 수정
     //path variable로 넘어온 id를 PostVo 타입의 객체의 id로 설정
@@ -56,12 +56,16 @@ public class BoardController {
     postService의 updatePost 메서드에 넘겨주어 id로 검색한 Post 데이터를 수정하는 로직을 수행*/
     @PutMapping("/update/{idx}")
     //@RequestBody 수정사항을 받기
-    public void updateBoard(@PathVariable Integer idx, @RequestBody BoardDto boardDto){
+    public void updatePost(@PathVariable Integer idx, @RequestBody BoardDto boardDto){
         boardDto.setIdx(idx);
-        boardService.updateBoard(boardDto);
+        boardService.updatePost(boardDto);
     }
 
-//    @PostMapping("/delete")
-//    public void
+    ////////////////게시글 삭제
+    @PostMapping("/delete/{idx}")
+    public void deletePost(@PathVariable Integer idx){
+        boardService.deletePost(idx);
+    }
+
 
 }

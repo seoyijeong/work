@@ -41,25 +41,31 @@ public class BoardService {
     }
 
     @Transactional
-    public void saveBoard(BoardDto boardDto) {
-        BoardEntity board= BoardEntity.builder()
+    public void savePost(BoardDto boardDto) {
+        BoardEntity post= BoardEntity.builder()
                 .title(boardDto.getTitle())
                 .content(boardDto.getContent())
                 .replyCnt(boardDto.getReplyCnt())
                 .build();
-        boardRepository.save(board);
+        boardRepository.save(post);
 
-        log.info("게시글 저장{}", board);
+        log.info("게시글 저장{}", post);
     }
 
     @Transactional  //순차적 실행(은행 계좌이체) : 값이 제대로 실행이 안되면 전체 실행불가
-    public void updateBoard(BoardDto boardDto) {
+    public void updatePost(BoardDto boardDto) {
          BoardEntity boardEntity =boardRepository.findById(boardDto.getIdx())
                  .orElseThrow();  //null 값 처리
         //boardEntity.setIdx(boardDto.getIdx()); id는 pk로 변경되면 안됨
         boardEntity.setTitle(boardDto.getTitle());
         boardEntity.setContent(boardDto.getContent());
         boardEntity.setReplyCnt(boardEntity.getReplyCnt());
+    }
+
+    @Transactional
+    public void deletePost(Integer idx) {
+        boardRepository.deletePost(idx);
+
     }
     //1.controller에서 requestBody로 전달된 파라미터 값이 넘어옴
     //2.서비스는 컨트롤러에서 넘어온 파라미터 값과 동일한 pk를 찾음
