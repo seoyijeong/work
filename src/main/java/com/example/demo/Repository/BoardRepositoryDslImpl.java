@@ -38,9 +38,10 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
         return jpqlQueryFactory.select(boardEntity).from(boardEntity).fetch();
     }
 
+    //projection :프로젝션이란 JPQL의 Select 절을 이용하여 어떤 데이터를 조회할 것인가를 말함
     @Override
     public List<CommentDto.replyComment> findBoardList(Integer parentIdx) {
-        log.info("queryFactory도착");
+        log.info("findBoardList");
         return jpqlQueryFactory.select(
                 Projections.fields(
                         CommentDto.replyComment.class,
@@ -51,9 +52,9 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
         )
                 .from(commentEntity)
                 .where(commentEntity.parentIdx.eq(parentIdx))
-                .fetch();
+                .fetch();   //list
     }
-
+        // CommentDto.comment : 게시판정보 + 댓글정보리스트
     @Override
     public CommentDto.comment findComment(Integer idx) {
         log.info("findComment 도착");
@@ -70,7 +71,7 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
                 )
                 .from(boardEntity)
                 .where(boardEntity.idx.eq(idx))
-                .fetchFirst();
+                .fetchFirst();  //list 아닌것
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.demo.Controller;
 
-
 import com.example.demo.Domain.Dto.BoardDto;
 import com.example.demo.Domain.Dto.CommentDto;
 import com.example.demo.Domain.Entity.BoardEntity;
@@ -11,6 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+Controller
+사용자의 요청을 처리 한 후 지정된 뷰에 모델 객체를 넘겨주는 역할
+즉 사용자의 요청이 진입하는 지점이며 요청에 따라 어떤 처리를 할지 결정을 Service에 넘겨줍니다.
+그후 Service에서 실질적으로 처리한 내용을 View에게 넘겨줍니다.
+*/
+
 @RestController
 //restful 웹 서비스를 구축하는 맥락에서 사용 컨트롤러는 들어오는  http 요청을 처리하고 적절한 http응답을 반환하는 클래스를 나타냄
 /*@RestController 클래스 내의 메서드는 일반적으로 HTTP 메서드 주석 (@GetMapping, @PostMapping, @PutMapping, @DeleteMapping 등)으로
@@ -18,7 +24,7 @@ import java.util.List;
  */
 @CrossOrigin("*") // 기본적으로 '모든 도메인, 모든 요청방식' 에 대해 허용 한다는 뜻
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor  //@Autowired final이 붙거나 @NotNull이 붙은 필드의 생성자를 자동 생성해주는 롬복어노테이션
 @RequestMapping("/board")
 public class BoardController {
 
@@ -42,7 +48,6 @@ public class BoardController {
     public CommentDto.comment getCommentList(@PathVariable(name = "parentIdx") Integer idx) {
         log.info("id=" + idx);
 
-        //return null;
         return boardService.getCommentList(idx);
     }
     ///////////////////게시글 신규, 저장
@@ -50,6 +55,8 @@ public class BoardController {
     public void savePost(@RequestBody BoardDto boardDto){
         boardService.savePost(boardDto);
     }
+
+
     //////////////////게시글 수정
     //path variable로 넘어온 id를 PostVo 타입의 객체의 id로 설정
     /*PUT request가 올 때 Body에 담겨온 데이터를 PostVo 타입의 객체에 담아
@@ -58,14 +65,20 @@ public class BoardController {
     //@RequestBody 수정사항을 받기
     public void updatePost(@PathVariable Integer idx, @RequestBody BoardDto boardDto){
         boardDto.setIdx(idx);
-        boardService.updatePost(boardDto);
+        boardService.savePost(boardDto);
     }
 
     ////////////////게시글 삭제
-    @PostMapping("/delete/{idx}")
+    @DeleteMapping("/delete/{idx}")
     public void deletePost(@PathVariable Integer idx){
         boardService.deletePost(idx);
     }
 
+    ////////////////////댓글 등록
+    @PostMapping("/saveReply")
+    public void saveReply(@RequestBody CommentDto.replyComment replyComment){
+
+        boardService.saveReply(replyComment);
+    }
 
 }

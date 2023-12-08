@@ -14,7 +14,7 @@ public class CommentDto {
         private String content;
 
 
-        private List<replyComment> reply;
+        private List<replyComment> reply;  //댓글 정보리스트
     }
 
     @Data // 댓글 테이블 정보들

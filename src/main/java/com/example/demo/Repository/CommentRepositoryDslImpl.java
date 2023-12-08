@@ -50,4 +50,10 @@ public class CommentRepositoryDslImpl implements CommentRepositoryDsl{
         /*select(boardEntity)는 엔티티를 선택하고, from(boardEntity)는 해당 엔티티를 어떤 테이블에서
         조회할 것인지를 지정합니다. fetch()는 쿼리를 실행하고 결과를 리스트로 반환*/
 
+
+    ///////////////////에러 메시지
+/*    삭제 에러 Cannot delete or update a parent row: a foreign key constraint fails
+    현재 삭제하려고 하는 테이블 또는 행이 다른 곳에서 참조하고 있기 때문에 발생하는 문제
+    1. 해당 테이블 또는 행을 참조하는 데이터를 삭제후 삭제
+    2. 외래키 체크 설정을 해제*/
 }
