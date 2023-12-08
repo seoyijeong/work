@@ -39,7 +39,7 @@ public class BoardService {
         log.info("댓글 정보 확인{}",selectBoardList);
         return boardComment ;
     }
-
+//ㅎ퐆
     @Transactional
     public void savePost(BoardDto boardDto) {
         BoardEntity post= BoardEntity.builder()
