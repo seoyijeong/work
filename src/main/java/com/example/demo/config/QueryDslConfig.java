@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing //엔티티의 생성일, 수정일 등을 자동으로 관리하는 기능을 제공
 @Configuration // 해당 클래스가 설정 파일임을 나타냅니다
 public class QueryDslConfig {
-    @PersistenceContext //EntityManager를 주입받기 위해 사용
+    @PersistenceContext() //EntityManager를 주입받기 위해 사용
     //public interface EntityManager
     private EntityManager entityManager;
 

@@ -247,3 +247,5 @@ eval "set -- $(
     )" '"$@"'
 
 exec "$JAVACMD" "$@"
+
+# gradle 명령파일

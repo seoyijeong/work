@@ -77,7 +77,6 @@ public class BoardController {
     ////////////////////댓글 등록
     @PostMapping("/saveReply")
     public void saveReply(@RequestBody CommentDto.replyComment replyComment){
-
         boardService.saveReply(replyComment);
     }
 

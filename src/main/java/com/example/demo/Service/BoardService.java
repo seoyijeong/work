@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 //전체 로직
 /*비즈니스 로직이란 데이터를 변경, 조작, 저장 등 데이터를 다루는 부분*/
@@ -52,12 +51,10 @@ public class BoardService {
     }
 
 
-
-
 /*    builder()
     생성자에 들어갈 매개 변수를 메서드로 하나하나 받아들이고 마지막에 통합 빌드해서 객체를 생성하는 방식*/
 
-    //신규 게시글
+    //신규 게시글 , 게시글 수정저장
     @Transactional
     public void savePost(BoardDto boardDto) {
         BoardEntity.BoardEntityBuilder builder = BoardEntity
@@ -66,6 +63,8 @@ public class BoardService {
                 .content(boardDto.getContent())
                 .replyCnt(boardDto.getReplyCnt());
 
+        //신규는 idx가 없기 때문에 save
+        // 수정은 기존idx를 불러와서 다시 idx에 저장
         if(boardDto.getIdx() > 0) {
             builder.idx(boardDto.getIdx());
         }
@@ -101,7 +100,6 @@ public class BoardService {
     public void deletePost(Integer idx) {
         boardRepository.deletePost(idx);
     }
-
     //builder패턴이 안될때는 Entity에서 @Builder 어노테이션 먼저 생성
     @Transactional
     public void saveReply(CommentDto.replyComment replyComment) {
@@ -112,6 +110,7 @@ public class BoardService {
                 .build();
 
         commentRepository.save(comment); //The given id must not be null] with root cause (id 값이없음)
+
     }
     //1.controller에서 requestBody로 전달된 파라미터 값이 넘어옴
     //2.서비스는 컨트롤러에서 넘어온 파라미터 값과 동일한 pk를 찾음
