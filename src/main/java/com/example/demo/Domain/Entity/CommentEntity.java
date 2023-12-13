@@ -1,10 +1,7 @@
 package com.example.demo.Domain.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @NoArgsConstructor //기본 생성자 생성
@@ -12,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Entity  //jpa 디펜던시 추가  //해당 클래스가 데이터베이스에서 엔터티로 매핑되는 것
 @Builder  //@@AllArgsConstructor 의 생성자를 생성한 후에 @Builder 사용
 @Data  //롬복
+@Getter
+@Setter
 //@NoArgsConstructor //기본 생성자 생성
 @Table(name = "TB_COMMENTS")
 public class CommentEntity {

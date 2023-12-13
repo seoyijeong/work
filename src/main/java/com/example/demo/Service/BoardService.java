@@ -4,10 +4,14 @@ import com.example.demo.Domain.Dto.BoardDto;
 import com.example.demo.Domain.Dto.CommentDto;
 import com.example.demo.Domain.Entity.BoardEntity;
 import com.example.demo.Domain.Entity.CommentEntity;
+import com.example.demo.Exception.CustomException;
+import com.example.demo.Exception.ErrorCode;
 import com.example.demo.Repository.BoardRepository;
 import com.example.demo.Repository.CommentRepository;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -26,19 +30,34 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor    //final 선언 어노테이션
 @Slf4j
+@Data
 public class BoardService {
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
-    public List<BoardEntity> getBoardList() {
+    public List<BoardEntity> getBoardList() throws Exception {
         System.out.println("서비스 보드리스트 도착!");
+        int i = 0;
+        if(i != 0) { //정상작동
+        //    if(i != 0) { //정상으로 작동되지 않을때
+                //throw  new customException(해당 enum);
+            throw new CustomException(ErrorCode.ERR001);
+            //throw new Exception(ResponseEntity.status().body());
+        }
         return boardRepository.findBoardList();
     }
 
     @Transactional  //순차적 실행(은행 계좌이체) : 값이 제대로 실행이 안되면 전체 실행불가
-    public CommentDto.comment getCommentList(Integer idx) {
+    public CommentDto.comment getCommentList(Integer idx) throws Exception {
+
+     // service,repository 데이터가 넘겨질때 if문 작동
+        if(idx == 0) { //정상작동
+             //if(idx != null) {  //정상으로 작동되지 않았을때
+                throw new DuplicateKeyException("중복");
+        }
+
         System.out.println(" commentDto.comment service 도착!");
         CommentDto.comment boardComment = boardRepository.findComment(idx);  //게시글+댓글
         List<CommentDto.replyComment> selectBoardList = boardRepository.findBoardList(idx);  //댓글
@@ -55,8 +74,19 @@ public class BoardService {
     생성자에 들어갈 매개 변수를 메서드로 하나하나 받아들이고 마지막에 통합 빌드해서 객체를 생성하는 방식*/
 
     //신규 게시글 , 게시글 수정저장
+
+    //에러 :  Content-Type 'text/plain;charset=UTF-8' is not supported
+    // postman으로 테스트할 때 발생한 오류
+    // 상단 Headers 에 key = Content-Type/ Value 에 application/json으로 입력후 출력
+
     @Transactional
-    public void savePost(BoardDto boardDto) {
+    public void savePost(BoardDto boardDto) throws Exception{
+
+        if(boardDto.getTitle() == null) { //정상작동
+            //     if(i == 0) {  //정상으로 작동되지 않았을때
+            throw new NullPointerException();
+        }
+
         BoardEntity.BoardEntityBuilder builder = BoardEntity
                 .builder()
                 .title(boardDto.getTitle())
@@ -68,6 +98,7 @@ public class BoardService {
         if(boardDto.getIdx() > 0) {
             builder.idx(boardDto.getIdx());
         }
+
 //        BoardEntity post= BoardEntity.builder()
 //                .title(boardDto.getTitle())
 //                .content(boardDto.getContent())
@@ -97,12 +128,23 @@ public class BoardService {
 
 
     @Transactional
-    public void deletePost(Integer idx) {
+    public void deletePost(Integer idx) throws Exception{
+        int i = 0;
+        if(i != 0) { //정상작동
+        //         if(i == 0) {  //정상으로 작동되지 않았을때
+            throw new NullPointerException();
+        }
+
         boardRepository.deletePost(idx);
     }
     //builder패턴이 안될때는 Entity에서 @Builder 어노테이션 먼저 생성
     @Transactional
-    public void saveReply(CommentDto.replyComment replyComment) {
+    public void saveReply(CommentDto.replyComment replyComment) throws Exception{
+        int i = 0;
+        if(i != 0) { //정상작동
+        //             if(i == 0) {  //정상으로 작동되지 않았을때
+            throw new NullPointerException();
+        }
         CommentEntity comment = CommentEntity.builder()
                 .parentIdx(replyComment.getParentIdx())
                 //.idx(replyComment.getIdx())

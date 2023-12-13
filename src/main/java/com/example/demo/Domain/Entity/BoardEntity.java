@@ -1,13 +1,12 @@
 package com.example.demo.Domain.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity  //jpa 디펜던시 추가  //해당 클래스가 데이터베이스에서 엔터티로 매핑되는 것
 @Data  //롬복
+@Getter
+@Setter
 @NoArgsConstructor //기본 생성자 생성
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 //PROCTECTED 로 설정하면 아무런 값도 갖지 않는 의미 없는 객체의 생성을 막게 됩니다.
