@@ -27,6 +27,10 @@ public class ResponseResult implements Serializable {
 
     }
 
+    //@Builder.Default
+//특정 필드를 초기화하고 싶다면 사용하는 @Builder 속성 어노테이션
+
+
     @Builder.Default
     String resultCode = "200";
     @Builder.Default

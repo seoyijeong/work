@@ -20,7 +20,7 @@ java {
 repositories { //저장소를 입력하는 섹션. 주로 maven의 저장소를 그대로 사용
     mavenCentral()
 }
-
+// 라이브러리
 dependencies { //종속성 입력. 기존에는 compile이 있었으나  3.0버전부터 deprecated(더이상사용하지않음)
     //implementation : 프로젝트 컴파일 과정에서 필요한 라이브러리
     //test시에 필요한 dependency 관리
@@ -41,6 +41,10 @@ dependencies { //종속성 입력. 기존에는 compile이 있었으나  3.0버�
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'    /* Spring security */
+    testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {

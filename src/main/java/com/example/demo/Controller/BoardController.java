@@ -9,11 +9,10 @@ import org.springframework.http.ResponseEntity;
 import com.example.demo.Service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
+
 
 /*Controller
 사용자의 요청을 처리 한 후 지정된 뷰에 모델 객체를 넘겨주는 역할
@@ -52,7 +51,6 @@ public class BoardController {
     //예외 : cast expression : 찾아온 아이와 담아야할 아이의 형태가 맞지 않음.
     /* ResponseEntity : HttpEntity 를 상속받는, 결과 데이터와  HTTP 상태 코드를 직접 제어할 수있는 클래스
     *  responseEntity 에는 사용자의  HttpRequest에 대한 응답 데이터가 포함 된다.*/
-
 
     @GetMapping("/list")
     public ResponseEntity<ResponseResult> getBoardList()  throws Exception {
@@ -93,7 +91,7 @@ public class BoardController {
     }*/
 
     @PostMapping("/save")
-    public ResponseEntity savePost(@RequestBody BoardDto boardDto) throws Exception{
+    public ResponseEntity<ResponseResult> savePost(@RequestBody BoardDto boardDto) throws Exception{
         boardService.savePost(boardDto);
         log.info(">>>>>>>>>>>>>{} 왔다!!!!",boardDto);
 
@@ -110,7 +108,7 @@ public class BoardController {
 
     @PutMapping("/update/{idx}")
     //@RequestBody 수정사항을 받기
-    public ResponseEntity updatePost(@PathVariable Integer idx, @RequestBody BoardDto boardDto)
+    public ResponseEntity<ResponseResult> updatePost(@PathVariable Integer idx, @RequestBody BoardDto boardDto)
             throws Exception{
         boardDto.setIdx(idx);
         boardService.savePost(boardDto);
@@ -119,14 +117,14 @@ public class BoardController {
 
     ////////////////게시글 삭제
     @DeleteMapping("/delete/{idx}")
-    public ResponseEntity deletePost(@PathVariable Integer idx) throws Exception{
+    public ResponseEntity<ResponseResult> deletePost(@PathVariable Integer idx) throws Exception{
         boardService.deletePost(idx);
         return ResponseUtils.GetResponseData();
     }
 
     ////////////////////댓글 등록
     @PostMapping("/saveReply")
-    public ResponseEntity saveReply(@RequestBody CommentDto.replyComment replyComment)
+    public ResponseEntity<ResponseResult> saveReply(@RequestBody CommentDto.replyComment replyComment)
             throws Exception{
         boardService.saveReply(replyComment);
         return ResponseUtils.GetResponseData();

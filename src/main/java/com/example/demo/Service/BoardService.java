@@ -79,7 +79,7 @@ public class BoardService {
     // postman으로 테스트할 때 발생한 오류
     // 상단 Headers 에 key = Content-Type/ Value 에 application/json으로 입력후 출력
 
-    @Transactional
+    @Transactional //묶음 작업
     public void savePost(BoardDto boardDto) throws Exception{
 
         if(boardDto.getTitle() == null) { //정상작동
@@ -99,12 +99,8 @@ public class BoardService {
             builder.idx(boardDto.getIdx());
         }
 
-//        BoardEntity post= BoardEntity.builder()
-//                .title(boardDto.getTitle())
-//                .content(boardDto.getContent())
-//                .replyCnt(boardDto.getReplyCnt())
-//                .build();
         boardRepository.save(builder.build());
+        //boardRepository로 저장하기 때문에 Dsl을 호출시킬 필요가 없음
 
         log.info("게시글 저장{}", builder.build());
     }
@@ -150,7 +146,6 @@ public class BoardService {
                 //.idx(replyComment.getIdx())
                 .comment(replyComment.getComment())
                 .build();
-
         commentRepository.save(comment); //The given id must not be null] with root cause (id 값이없음)
 
     }

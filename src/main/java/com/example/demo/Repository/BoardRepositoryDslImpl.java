@@ -48,6 +48,7 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
         return jpqlQueryFactory.select(
                 Projections.fields(
                         CommentDto.replyComment.class,
+                        //select 항목을 원하는 객체 타입으로 받을때 해당하는 타입으로 선언을 해주는것
                         commentEntity.idx,
                         commentEntity.parentIdx,
                         commentEntity.comment
@@ -92,7 +93,5 @@ public class BoardRepositoryDslImpl implements BoardRepositoryDsl{
     //boardEntity는 QueryDSL이 자동으로 생성한 엔티티에 대한 Q 타입
         /*select(boardEntity)는 엔티티를 선택하고, from(boardEntity)는 해당 엔티티를 어떤 테이블에서
         조회할 것인지를 지정합니다. fetch()는 쿼리를 실행하고 결과를 리스트로 반환*/
-
-
 
 }
