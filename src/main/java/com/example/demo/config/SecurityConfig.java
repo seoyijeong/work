@@ -1,9 +1,11 @@
 package com.example.demo.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,6 +30,7 @@ public class SecurityConfig {
 
     //deprecated 클래스
     //메서드 체이닝으로 해결하지말고 앞으로는 람다식을 사용하여서 해결!!!
+    //특정 HTTP 요청에 대한 웹 기반 보안 구성
     @Bean
     protected SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -58,5 +61,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired   //로그인 처리 구현 : AuthenticationManagerBuilder를 주입해서 인증에 대한 처리를 해야 한다.
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        //auth.memberLogin(customMemberService).passwordEncoder(passwordEncoder());
+    }
+
 
 }

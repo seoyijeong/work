@@ -1,5 +1,6 @@
 package com.example.demo.Repository;
 
+import com.example.demo.Domain.Dto.MemberDto;
 import com.example.demo.Domain.Entity.MemberEntity;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,6 @@ public class MemberRepositoryDslImpl implements MemberRepositoryDsl {
     protected final JPQLQueryFactory jpqlQueryFactory;  //JPQLQueryFactory : interface
 
     public MemberRepositoryDslImpl(JPQLQueryFactory jpqlQueryFactory) {
-
         this.jpqlQueryFactory = jpqlQueryFactory;
     }
 
@@ -39,4 +39,12 @@ public class MemberRepositoryDslImpl implements MemberRepositoryDsl {
                 .execute();
         log.info("member 삭제");
     }
+   public MemberEntity memberLogin(MemberDto memberDto){
+
+       return jpqlQueryFactory.select(memberEntity)
+               .from(memberEntity)
+               .where(memberEntity.userId.eq(memberDto.getUserId()))
+               .fetchFirst();
+   }
+
 }

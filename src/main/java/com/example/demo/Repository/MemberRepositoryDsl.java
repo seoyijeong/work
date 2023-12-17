@@ -1,5 +1,6 @@
 package com.example.demo.Repository;
 
+import com.example.demo.Domain.Dto.MemberDto;
 import com.example.demo.Domain.Entity.MemberEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +11,8 @@ public interface MemberRepositoryDsl {
     List<MemberEntity> findMemberList(String userId);
 
     void deleteMember(String userId);
+
+    MemberEntity memberLogin(MemberDto memberDto);
 
 //    List<MemberEntity> findMemberList(String userId);
 }

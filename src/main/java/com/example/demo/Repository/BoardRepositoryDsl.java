@@ -14,7 +14,6 @@ public interface BoardRepositoryDsl{
 
     CommentDto.comment findComment(Integer idx);
 
-
     void deletePost(Integer idx);
 
     //Entity : 주로 읽기만 할때(수정은 가능한데 지양함)

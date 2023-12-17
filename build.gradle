@@ -44,6 +44,7 @@ dependencies { //종속성 입력. 기존에는 compile이 있었으나  3.0버�
 
     implementation 'org.springframework.boot:spring-boot-starter-security'    /* Spring security */
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 }
 

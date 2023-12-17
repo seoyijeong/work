@@ -41,7 +41,7 @@ public class BoardService {
         System.out.println("서비스 보드리스트 도착!");
         int i = 0;
         if(i != 0) { //정상작동
-        //    if(i != 0) { //정상으로 작동되지 않을때
+        //    if(i == 0) { //정상으로 작동되지 않을때
                 //throw  new customException(해당 enum);
             throw new CustomException(ErrorCode.ERR001);
             //throw new Exception(ResponseEntity.status().body());
@@ -146,8 +146,8 @@ public class BoardService {
                 //.idx(replyComment.getIdx())
                 .comment(replyComment.getComment())
                 .build();
-        commentRepository.save(comment); //The given id must not be null] with root cause (id 값이없음)
-
+        commentRepository.save(comment);
+        //The given id must not be null] with root cause (id 값이없음)
     }
     //1.controller에서 requestBody로 전달된 파라미터 값이 넘어옴
     //2.서비스는 컨트롤러에서 넘어온 파라미터 값과 동일한 pk를 찾음

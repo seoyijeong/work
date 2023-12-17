@@ -8,11 +8,13 @@ import com.example.demo.Repository.MemberRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
 import java.util.List;
 //전체 로직
 
@@ -35,14 +37,13 @@ public class MemberService {
 
     ////회원가입
     @Transactional
-    public void memberRegister(MemberDto memberDto){
-        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
-
-
+    public void memberRegister(MemberDto memberDto) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         MemberEntity member = MemberEntity.builder()
                 .userId(memberDto.getUserId())
                 .userName(memberDto.getUserName())
+                .email((memberDto.getEmail()))
                 .password(passwordEncoder.encode(memberDto.getPassword()))
                 .build();
         memberRepository.save(member);
@@ -82,22 +83,37 @@ public class MemberService {
         //>>>>>>>>>>>>>com.example.demo.Domain.Entity.MemberEntity@2ebbff57 왔다!!!!
         //객체 주소로 들어옴
     }
-    ////////////////////로그인
-    public void memberLogin(String userId) {
 
+    ////////////////////로그인
+    //MemberDto memberDto 사용자가 입력한 값
+    public MemberEntity memberLogin(MemberDto memberDto) throws Exception {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        //아이디와 일치하는 회원정보를 list에 담아서 가져옴
+        //쿼리를 호출하는 메서드 find , memberinfoById
+        MemberEntity memberLoginList = memberRepository.memberLogin(memberDto); //얘는 이미 암호화가 되어있음
+
+        //memberDto.getUserId()  사용자가 입력한값
+
+        //아이디가 존재하는 아이디 인지 체크(memberLoginList DB 값)이 null일때
+        if(memberLoginList == null) {
+            throw new CustomException(ErrorCode.ERR004);
+        }
+        //if문은 틀린것을 찾아야...가 일반(부정문)
+        //id가 이미 DB에 있음
+        if (!passwordEncoder.matches(memberDto.getPassword(), memberLoginList.getPassword())) {
+            throw new CustomException(ErrorCode.ERR004);
+        }
+        return memberLoginList;
     }
 
     //회원정보 불러오기
     @Transactional
     public List<MemberEntity> getMemberList(String userId) {
-//        memberRepository.memberList(userId);
-
         return memberRepository.findMemberList(userId);
     }
 
     public void deleteMember(String userId) {
         memberRepository.deleteMember(userId);
     }
-
-
 }
