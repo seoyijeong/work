@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ Data Binding은 getter/setter가 존재하는 변수에 한해서 이루어진�
 public class MemberController {
 
     private final MemberService memberService;
+    private final AuthenticationManager authenticationManager;
 
 ///////////////////// 회원가입
     @PostMapping("/register")
@@ -49,20 +51,21 @@ public class MemberController {
     }
 
     ///////////////////회원 정보 수정
-    //1. 로그인이 되어 있는 상태에서 정보를 수정
-    //2. restApi를 통해 관련 정보를 수정하고 이를 DB에 업데이트
+    //입력값으로 원래값을 덩어리로 받는다
+    //dto --> 아이디 값 일치(없으면 Exception, 있는지 확인) --> dto(entity로 변환)-->수정
     @PostMapping("/memberUpdate")
-    public ResponseEntity<ResponseResult> updatePost(@RequestBody MemberDto memberDto) {
-        memberService.memberRegister(memberDto);
-        return ResponseUtils.GetResponseData();
+    public ResponseEntity<ResponseResult> getUpdateMember(@RequestBody MemberDto memberDto)
+    throws Exception {
+        MemberEntity updateMember= memberService.memberUpdate(memberDto);
+        return ResponseUtils.GetResponseData(updateMember);
     }
 
     //////////////상세 조회  XXXX
-    @GetMapping("/read/{userId}")
+/*    @GetMapping("/read/{userId}")
     public ResponseEntity<ResponseResult> getMemberList(@PathVariable(name = "userId") String userId) {
         List<MemberEntity> read = memberService.getMemberList(userId);
         return ResponseUtils.GetResponseData(read);
-    }
+    }*/
     /////////////////삭제
     @Transactional
     @DeleteMapping("/delete/{userId}")

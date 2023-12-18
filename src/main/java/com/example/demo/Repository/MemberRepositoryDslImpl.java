@@ -1,12 +1,14 @@
 package com.example.demo.Repository;
 
 import com.example.demo.Domain.Dto.MemberDto;
+import com.example.demo.Domain.Entity.BoardEntity;
 import com.example.demo.Domain.Entity.MemberEntity;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import static com.example.demo.Domain.Entity.QBoardEntity.boardEntity;
 import static com.example.demo.Domain.Entity.QMemberEntity.memberEntity;
 
 
@@ -47,4 +49,14 @@ public class MemberRepositoryDslImpl implements MemberRepositoryDsl {
                .fetchFirst();
    }
 
+   public MemberEntity memberUpdate(MemberDto memberDto) {
+       return jpqlQueryFactory
+               .select(memberEntity)
+               .from(memberEntity)
+               .where(memberEntity.userId.eq(memberDto.getUserId()))
+               .fetchFirst();
+   }
+    public List<MemberEntity> getMemberList() {
+        return jpqlQueryFactory.select(memberEntity).from(memberEntity).fetch();
+    }
 }

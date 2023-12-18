@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -62,9 +64,18 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired   //로그인 처리 구현 : AuthenticationManagerBuilder를 주입해서 인증에 대한 처리를 해야 한다.
+  /*  @Autowired   //로그인 처리 구현 : AuthenticationManagerBuilder를 주입해서 인증에 대한 처리를 해야 한다.
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        //auth.memberLogin(customMemberService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userService)
+                .passwordEncoder(userService.passwordEncoder());
+    }*/
+
+
+    //사용자가 누군지 인증을 받는 것
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
 

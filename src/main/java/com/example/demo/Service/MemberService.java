@@ -35,7 +35,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     //JPA Entity는 스프링 Bean이 아니므로 @Autowired가 아닌 직접 위와 같이 주입해줘야 함
 
-    ////회원가입
+    ///////////////////////회원가입
     @Transactional
     public void memberRegister(MemberDto memberDto) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -89,7 +89,7 @@ public class MemberService {
     public MemberEntity memberLogin(MemberDto memberDto) throws Exception {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        //아이디와 일치하는 회원정보를 list에 담아서 가져옴
+        //아이디와 일치하는 회원정보를 Entity에 담아서 가져옴
         //쿼리를 호출하는 메서드 find , memberinfoById
         MemberEntity memberLoginList = memberRepository.memberLogin(memberDto); //얘는 이미 암호화가 되어있음
 
@@ -107,13 +107,59 @@ public class MemberService {
         return memberLoginList;
     }
 
-    //회원정보 불러오기
+    /////////////////////////////////////회원정보 수정
+    //1. 로그인이 되어 있는 상태에서 정보를 수정
+    //비밀번호를 입력하여 회원정보 수정
+    //닉네임과 비밀번호를 수정할수 있다
+    //중복검사
+    //정보가 완료되면 변경된 내용을 보여준다
+    //비밀번호만 불러오기 entity =id.  dto =id -->pw 변경시 암호화 번호 동일
+    //
+    //2. restApi를 통해 관련 정보를 수정하고 이를 DB에 업데이트
+
     @Transactional
-    public List<MemberEntity> getMemberList(String userId) {
-        return memberRepository.findMemberList(userId);
+    public MemberEntity memberUpdate(MemberDto memberDto) throws Exception{
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        MemberEntity memberUpdate = memberRepository.memberUpdate(memberDto);
+
+        if (!memberDto.getUserId().equals(memberUpdate.getUserId())){
+            throw new CustomException(ErrorCode.ERR001);
+        }
+        if (!passwordEncoder.matches(memberDto.getPassword(), memberUpdate.getPassword())) {
+            throw new CustomException(ErrorCode.ERR004);
+        }
+        MemberEntity memberUpdate2 = MemberEntity.builder()
+                .userId(memberDto.getUserId())
+                .userName(memberDto.getUserName())
+                .email((memberDto.getEmail()))
+                .password(passwordEncoder.encode(memberDto.getPassword()))
+                .build();
+        memberRepository.save(memberUpdate2);
+
+        log.info(">>>>>>>>>>>>>{} 왔다!!!!", memberUpdate2);
+        return memberUpdate;
     }
 
     public void deleteMember(String userId) {
         memberRepository.deleteMember(userId);
     }
+    public List<MemberEntity> getMemberList() {
+       return memberRepository.getMemberList();
+    }
+    //////////////// //////////////회원정보 상세조회
+
+/*    @Transactional
+    public List<MemberEntity> getMemberList() throws Exception{
+        System.out.println("서비스 보드리스트 도착!");
+        int i = 0;
+        if(i != 0) { //정상작동
+            //    if(i == 0) { //정상으로 작동되지 않을때
+            //throw  new customException(해당 enum);
+            throw new CustomException(ErrorCode.ERR001);
+            //throw new Exception(ResponseEntity.status().body());
+        }
+        return memberRepository.getMemberList();
+    }*/
 }

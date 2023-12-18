@@ -14,5 +14,7 @@ public interface MemberRepositoryDsl {
 
     MemberEntity memberLogin(MemberDto memberDto);
 
-//    List<MemberEntity> findMemberList(String userId);
+    MemberEntity memberUpdate(MemberDto memberDto);
+
+    List<MemberEntity> getMemberList();
 }
