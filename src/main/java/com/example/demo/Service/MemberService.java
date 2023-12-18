@@ -57,29 +57,7 @@ public class MemberService {
         // if~else, switch, continue 로 수정하기
         // 조건절에 여러개의 구문이 있으면 예외가 잘 발생함
 
-*//*        int i = 0;
-        if(i == 0) { //정상작동
-            //             if(i == 0) {  //정상으로 작동되지 않았을때
-            throw new CustomException(ErrorCode.ERR003);
-        }*//*
-
-//        MemberEntity.MemberEntityBuilder memberBuilder = MemberEntity
-//                .builder()
-//                .userName(memberDto.getUserName())
-//                .userId(memberDto.getUserId())
-//                .password(memberDto.getPassword());
-
-        MemberEntity member = MemberEntity.builder()
-                .userName(memberDto.getUserName())
-                .userId(memberDto.getUserId())
-                .password(memberDto.getPassword())
-                .build();
-        //id 중복 체크,로그인
-*//*        if(memberDto.getUserId().equals(member.getUserId())) {
-            member.setUserId(memberDto.getUserId());
-        }*//*
-        memberRepository.save(member);
-        log.info(">>>>>>>>>>>>>{} 왔다!!!!", member);*/
+*/
         //>>>>>>>>>>>>>com.example.demo.Domain.Entity.MemberEntity@2ebbff57 왔다!!!!
         //객체 주소로 들어옴
     }
@@ -96,7 +74,7 @@ public class MemberService {
         //memberDto.getUserId()  사용자가 입력한값
 
         //아이디가 존재하는 아이디 인지 체크(memberLoginList DB 값)이 null일때
-        if(memberLoginList == null) {
+        if (memberLoginList == null) {
             throw new CustomException(ErrorCode.ERR004);
         }
         //if문은 틀린것을 찾아야...가 일반(부정문)
@@ -118,13 +96,13 @@ public class MemberService {
     //2. restApi를 통해 관련 정보를 수정하고 이를 DB에 업데이트
 
     @Transactional
-    public MemberEntity memberUpdate(MemberDto memberDto) throws Exception{
+    public MemberEntity memberUpdate(MemberDto memberDto) throws Exception {
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         MemberEntity memberUpdate = memberRepository.memberUpdate(memberDto);
 
-        if (!memberDto.getUserId().equals(memberUpdate.getUserId())){
+        if (!memberDto.getUserId().equals(memberUpdate.getUserId())) {
             throw new CustomException(ErrorCode.ERR001);
         }
         if (!passwordEncoder.matches(memberDto.getPassword(), memberUpdate.getPassword())) {
@@ -142,24 +120,44 @@ public class MemberService {
         return memberUpdate;
     }
 
+
+    //////////회원 상세조회
+    @Transactional
+    public MemberEntity MemberRead(MemberDto memberDto) throws Exception {
+        log.info("memberService 도착???{}", memberDto);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        MemberEntity memberInfo = memberRepository.MemberRead(memberDto);
+
+        if ( memberInfo == null){
+            throw new CustomException(ErrorCode.ERR003);
+        }
+
+        if (!memberDto.getUserId().equals(memberInfo.getUserId())) {
+            throw new CustomException(ErrorCode.ERR001);
+        }
+        if (!passwordEncoder.matches(memberDto.getPassword(), memberInfo.getPassword())) {
+            throw new CustomException(ErrorCode.ERR004);
+        }
+        //MemberEntity memberInfo2 = memberRepository.MemberRead(memberDto);
+
+        log.info(">>>>>>>>>>>>>{} 왔다!!!!", memberInfo);
+        return memberInfo;
+    }
+
+
+
+        //return memberRepository.MemberRead(userId);
+
+
+    ////////회원 삭제
     public void deleteMember(String userId) {
         memberRepository.deleteMember(userId);
     }
+    /////////////회원 전체 리스트
     public List<MemberEntity> getMemberList() {
-       return memberRepository.getMemberList();
-    }
-    //////////////// //////////////회원정보 상세조회
-
-/*    @Transactional
-    public List<MemberEntity> getMemberList() throws Exception{
-        System.out.println("서비스 보드리스트 도착!");
-        int i = 0;
-        if(i != 0) { //정상작동
-            //    if(i == 0) { //정상으로 작동되지 않을때
-            //throw  new customException(해당 enum);
-            throw new CustomException(ErrorCode.ERR001);
-            //throw new Exception(ResponseEntity.status().body());
-        }
         return memberRepository.getMemberList();
-    }*/
+    }
+    //////////////// //////////////상세조회
+
 }

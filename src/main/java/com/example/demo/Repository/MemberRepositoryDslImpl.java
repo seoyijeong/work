@@ -23,32 +23,20 @@ public class MemberRepositoryDslImpl implements MemberRepositoryDsl {
     protected final JPQLQueryFactory jpqlQueryFactory;  //JPQLQueryFactory : interface
 
     public MemberRepositoryDslImpl(JPQLQueryFactory jpqlQueryFactory) {
+
         this.jpqlQueryFactory = jpqlQueryFactory;
     }
 
-    @Override
-    public List<MemberEntity> findMemberList(String userId) {
-        return jpqlQueryFactory.select(memberEntity)
-                .from(memberEntity)
-                .where(memberEntity.userId.eq(userId))
-                .fetch();
-    }
-
-    @Override
-    public void deleteMember(String userId) {
-        jpqlQueryFactory.delete(memberEntity)
-                .where(memberEntity.userId.eq(userId))
-                .execute();
-        log.info("member 삭제");
-    }
+    ///////////////로그인
    public MemberEntity memberLogin(MemberDto memberDto){
 
-       return jpqlQueryFactory.select(memberEntity)
+       return jpqlQueryFactory
+               .select(memberEntity)
                .from(memberEntity)
                .where(memberEntity.userId.eq(memberDto.getUserId()))
                .fetchFirst();
    }
-
+    /////////////회원정보 수정
    public MemberEntity memberUpdate(MemberDto memberDto) {
        return jpqlQueryFactory
                .select(memberEntity)
@@ -56,7 +44,28 @@ public class MemberRepositoryDslImpl implements MemberRepositoryDsl {
                .where(memberEntity.userId.eq(memberDto.getUserId()))
                .fetchFirst();
    }
+   ////////////회원 전체 리스트
     public List<MemberEntity> getMemberList() {
         return jpqlQueryFactory.select(memberEntity).from(memberEntity).fetch();
+    }
+    ////////////멤버 삭제
+    @Override
+    public void deleteMember(String userId) {
+        jpqlQueryFactory.delete(memberEntity)
+                .where(memberEntity.userId.eq(userId))
+                .execute();
+        log.info("member 삭제");
+    }
+    @Override
+    public MemberEntity MemberRead(MemberDto memberDto) {
+        log.info("memberRead>>>>>{}", memberDto);
+         MemberEntity memberRead= jpqlQueryFactory
+                .select(memberEntity)
+                .from(memberEntity)
+                .where(memberEntity.userId.eq(memberDto.getUserId()))
+                 .orderBy(memberEntity.userId.asc())
+                .fetchFirst();
+
+    return memberRead;
     }
 }

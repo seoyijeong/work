@@ -31,7 +31,6 @@ Data Binding은 getter/setter가 존재하는 변수에 한해서 이루어진�
 public class MemberController {
 
     private final MemberService memberService;
-    private final AuthenticationManager authenticationManager;
 
 ///////////////////// 회원가입
     @PostMapping("/register")
@@ -60,12 +59,15 @@ public class MemberController {
         return ResponseUtils.GetResponseData(updateMember);
     }
 
-    //////////////상세 조회  XXXX
-/*    @GetMapping("/read/{userId}")
-    public ResponseEntity<ResponseResult> getMemberList(@PathVariable(name = "userId") String userId) {
-        List<MemberEntity> read = memberService.getMemberList(userId);
+    //////////////상세 조회
+    @Transactional
+    @GetMapping("/read")
+    public ResponseEntity<ResponseResult> getMemberRead(@RequestBody MemberDto memberDto) throws Exception {
+        log.info("getMethodRead Controller{}", memberDto);
+        MemberEntity read = memberService.MemberRead(memberDto);
+        log.info("kkkkkk{}", read);
         return ResponseUtils.GetResponseData(read);
-    }*/
+    }
     /////////////////삭제
     @Transactional
     @DeleteMapping("/delete/{userId}")

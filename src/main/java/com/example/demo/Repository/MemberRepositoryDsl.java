@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface MemberRepositoryDsl {
-    //@Transactional(readOnly = true)
-    List<MemberEntity> findMemberList(String userId);
 
     void deleteMember(String userId);
 
@@ -16,5 +14,8 @@ public interface MemberRepositoryDsl {
 
     MemberEntity memberUpdate(MemberDto memberDto);
 
+    MemberEntity MemberRead(MemberDto memberDto);
+
     List<MemberEntity> getMemberList();
+
 }
