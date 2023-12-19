@@ -44,7 +44,15 @@ dependencies { //종속성 입력. 기존에는 compile이 있었으나  3.0버�
 
     implementation 'org.springframework.boot:spring-boot-starter-security'    /* Spring security */
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    //springDocs 설정
+    //버전이 다르면 swagger페이지에 접속할 수 없기 때문에 꼭 버전확인을 한 후에 적용(boot 3.0이상은 2.1.0이상)
+    //implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+    //implementation "org.springframework.boot:spring-boot-dependencies:2.6.14"
+    // Spring Boot 3버전부터는 위의 의존성 라이브러리를 추가하면 스웨거 UI 접속 시 404 에러가 발생하기 때문에 다음 코드를 추가
+    //api-docs에서 json형식으로 보여주기 위해
+    //implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.7.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
 }
 

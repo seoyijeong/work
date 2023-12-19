@@ -5,10 +5,12 @@ import com.example.demo.Domain.Dto.CommentDto;
 import com.example.demo.Domain.Dto.ResponseResult;
 import com.example.demo.Domain.Entity.BoardEntity;
 import com.example.demo.Util.ResponseUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import com.example.demo.Service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +33,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor  //@Autowired final이 붙거나 @NotNull이 붙은 필드의 생성자를 자동 생성해주는 롬복어노테이션
 @RequestMapping("/board")
+@Validated
+//@Tag(name = "board", description = "Board API")
 public class BoardController {
 
 

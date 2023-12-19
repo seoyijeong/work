@@ -21,7 +21,15 @@ import java.util.List;
 사용하고 싶을 때 이용된다.
 @ModelAttribute는 "가장 적절한" 생성자를 찾아 객체를 생성 및 초기화한다.
 객체 생성 및 초기화 > Data Binding > Validation 순서로 진행된다.
-Data Binding은 getter/setter가 존재하는 변수에 한해서 이루어진다.*/
+Data Binding은 getter/setter가 존재하는 변수에 한해서 이루어진다.
+컨트롤러 메서드의 매개변수 앞에 어노테이션 @RequsetBody 를 붙이면 해당객체가 웹 요청의 body와 매핑
+되도록한다.
+*/
+
+/*@RequestBody
+HTTPRequestBody를 java 객체로 매핑해주는 어노테이션이다.
+API 요청으로 전송받은 JSON 데이터를(우리가 조작하지 않고도)객체로 변환해서 받을 수 있게 된다.
+* */
 
 @RestController
 @CrossOrigin("*") // 기본적으로 '모든 도메인, 모든 요청방식' 에 대해 허용 한다는 뜻
