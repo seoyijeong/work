@@ -1,3 +1,4 @@
+/*
 package com.example.demo.Controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -34,4 +35,4 @@ public class ExampleController {
         return "무시되는 api";
     }
 }
-//localhost:8080/swagger-ui/index.html
+//localhost:8080/swagger-ui/index.html*/

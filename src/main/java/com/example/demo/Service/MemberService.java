@@ -158,6 +158,6 @@ public class MemberService {
     public List<MemberEntity> getMemberList() {
         return memberRepository.getMemberList();
     }
-    //////////////// //////////////상세조회
+
 
 }

@@ -23,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 인증로직을 커스텀하기 위한 커스텀 필터 설정
 기타 csrf, 강제 https 호출 등등 거의 모든 설정*/
 
+//비밀번호 생성
 @Configuration
 //(proxyBeanMethods = false) 일부 메서드만 구성된 구성 클래스에서 빈 메서드를 프록시 처리하지 않도록 설정
 @EnableWebSecurity   // Spring Security 설정 활성화

@@ -24,7 +24,7 @@ repositories { //저장소를 입력하는 섹션. 주로 maven의 저장소를 
 dependencies { //종속성 입력. 기존에는 compile이 있었으나  3.0버전부터 deprecated(더이상사용하지않음)
     //implementation : 프로젝트 컴파일 과정에서 필요한 라이브러리
     //test시에 필요한 dependency 관리
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'  //interceptor에도 필요함
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //springBoot 3.0 버전 추가

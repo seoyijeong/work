@@ -21,8 +21,6 @@ import java.util.List;
 즉 사용자의 요청이 진입하는 지점이며 요청에 따라 어떤 처리를 할지 결정을 Service에 넘겨줍니다.
 그후 Service에서 실질적으로 처리한 내용을 View에게 넘겨줍니다.*/
 
-
-
 @RestController
 //@Controller와 @ResponseBody을 합친 역할
 //restful 웹 서비스를 구축하는 맥락에서 사용 컨트롤러는 들어오는  http 요청을 처리하고 적절한 http응답을 반환하는 클래스를 나타냄
