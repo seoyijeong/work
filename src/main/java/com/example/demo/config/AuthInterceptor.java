@@ -26,6 +26,11 @@ public class AuthInterceptor implements HandlerInterceptor {
     //전달인자 중 Object handler는 핸들러 매핑이 찾은 컨트롤러 클래스 객체
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+            /*String[] urlList = {
+            "/memberList/getMemberList",
+            "wwww"
+    };*/
+
 /*        String requestURI = request.getRequestURI();
         String uuid = UUID.randomUUID().toString();  // - 요청 로그를 구분하기 위한 uuid 생성
 
@@ -40,16 +45,24 @@ public class AuthInterceptor implements HandlerInterceptor {
         log.info("REQUEST>>>>>>>>>> [{}][{}][{}]", uuid, requestURI, handler);
         return true;*/
 
-        String requestURI = request.getRequestURI();
-        log.info("인증체크 인터셉터 실행{}", requestURI);
+
+
         //현재 요청과 연관된 세션을 반환합니다.
         // 만약 세션이 이미 존재하지 않으면(null), 새로운 세션을 생성하지 않고 null을 반환
         HttpSession session = request.getSession(false);
 
-        if (session == null ) {
+/*        if (session == null ) {
             log.info("미인증 사용자");
         return false;
-    }
+    }*/
+        String requestURI = request.getRequestURI();
+        log.info("인증체크 인터셉터 실행{}", requestURI);
+
+        //String token = "";
+        //log.info("token::: {}",token);
+        if("/memberList/getMemberList".equals(requestURI)) {
+            log.info("회원 리스트 API 호출");
+        }
 
         log.info("==================== START ====================");
         log.info(" Request URI \t: " + request.getRequestURI());

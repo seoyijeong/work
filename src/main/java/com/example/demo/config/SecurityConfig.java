@@ -34,14 +34,24 @@ public class SecurityConfig {
     //deprecated 클래스
     //메서드 체이닝으로 해결하지말고 앞으로는 람다식을 사용하여서 해결!!!
     //특정 HTTP 요청에 대한 웹 기반 보안 구성
+    //SecurityFilterChain은 모든 요청이 들어올 때마다 거쳐가는 필터의 체인
+
+    //일반적으로 Spring Security에서 JWT 검사를 수행하는 시점은 UsernamePasswordAuthenticationFilter
+    // 이전의 단계인 JwtAuthenticationFilter와 같은 사용자 정의 필터를 추가하여 처리합니다.
+    // 이 필터는 HTTP 요청에서 JWT를 추출하고 검사한 후, 유효한 토큰이면 사용자를 인증
+    //UsernamePasswordAuthenticationFilter는 Spring Security에서 사용자가 제공한
+    // 사용자 이름과 비밀번호를 기반으로 인증을 시도하는 필터입니다. 주로 로그인과 관련된 작업을 수행하며, 특히 폼 기반 로그인에 사용
+    //이 필터는 보통 HTTP POST 메서드로 전송된 로그인 요청을 처리하고,
+    // 요청에서 사용자 이름과 비밀번호를 추출하여 인증 매니저를 사용해 인증을 시도합니다. 성공하면 사용자를 세션에 인증하고, 실패하면 인증 예외를 던집니다.
+
     @Bean
     protected SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable);
         http
                 .authorizeHttpRequests(authz -> authz
-                                .requestMatchers("/login").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/login").permitAll()  // 특정 경로에 대한 접근 허용
+                                .anyRequest().authenticated()// 그 외의 모든 요청은 인증이 필요
                 )
                                 .formLogin(formLogin -> formLogin
                                             .loginPage("/login")  //Url안에 주소를 설정해주면 해당 URL로 진입 시 Spring Security가 로그인 기능을 위임받아서 처리

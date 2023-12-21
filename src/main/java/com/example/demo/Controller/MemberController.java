@@ -4,6 +4,7 @@ import com.example.demo.Domain.Dto.MemberDto;
 import com.example.demo.Domain.Dto.ResponseResult;
 import com.example.demo.Domain.Entity.MemberEntity;
 import com.example.demo.Service.MemberService;
+import com.example.demo.Token.JwtTokenProvider;
 import com.example.demo.Util.ResponseUtils;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -39,6 +40,7 @@ API 요청으로 전송받은 JSON 데이터를(우리가 조작하지 않고도
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtTokenProvider jwtTokenProvider;
 
 ///////////////////// 회원가입
     @PostMapping("/register")
@@ -53,6 +55,10 @@ public class MemberController {
     public ResponseEntity<ResponseResult> memberLogin(@RequestBody MemberDto memberDto)
             throws Exception{
         MemberEntity memberLogin = memberService.memberLogin(memberDto);
+
+        String token = jwtTokenProvider.createToken(memberDto.getUserId());
+        log.info("토큰 생성{}",jwtTokenProvider);
+        log.info("token::: {}", token);
 
         return ResponseUtils.GetResponseData(memberLogin);
     }
